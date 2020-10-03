@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../MY_WEB_PROG"
+		},
+		{
+			"path": "../../../../Dev/Web_development"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

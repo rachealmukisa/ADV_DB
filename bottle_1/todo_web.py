@@ -1,5 +1,17 @@
-from bottle import get, post, run, template, request, redirect
+import os
 import sqlite3
+from bottle import get, post, template, request, redirect
+
+#are we executing at PythonAnywhere?
+ON_PYTHONANYWHERE = "PYTHONANYWHERE_DOMAIN" in os.environ
+
+assert ON_PYTHONANYWHERE == False
+
+if ON_PYTHONANYWHERE:
+    pass
+else:
+    #on the development environment, import the development server
+    from bottle import run, debug
 
 @get('/')
 def get_show_list():
@@ -27,22 +39,9 @@ def post_new_item():
     #return "The new item is " + new_item + "..."
     redirect("/")
 
-run(host='localhost', port=8080)
-
-"""
-# Before the template was modified to show_list
-from bottle import route, run, template
-import sqlite3
-
-@route('/todos')
-def get_todos():
-    connection = sqlite3.connect("todo.db")
-    #create a cursor
-    cursor = connection.cursor()
-    cursor.execute("SELECT * FROM todo")
-    result = cursor.fetchall() 
-    cursor.close()
-    return template("show_list", rows=result)
-
-run(host='localhost', port=8080)
-"""
+if ON_PYTHONANYWHERE:
+    pass
+else:
+    #on the development environment, run the development server
+    debug(True)
+    run(host='localhost', port=8080)

@@ -15,28 +15,32 @@ else:
 
 @get('/')
 def get_show_list():
-    connection = sqlite3.connect("todo.db")
+    connection = sqlite3.connect("users.db")
     #create a cursor
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM todo")
+    cursor.execute("SELECT * FROM users")
     result = cursor.fetchall() 
     cursor.close()
     return template("show_list", rows=result)
 
-@get("/new_item")
-def get_new_item():
-    return template("new_item")
+@get("/new_user")
+def get_new_user():
+    return template("new_user")
 
-@post("/new_item")
-def post_new_item():
-    new_item = request.forms.get("new_item").strip()
-    connection = sqlite3.connect("todo.db")
+@post("/new_user")
+def post_new_user():
+    f_name = request.forms.get("f_name").strip()
+    myemail = request.forms.get("myemail").strip()
+    msg = request.forms.get("msg").strip()
+
+    connection = sqlite3.connect("users.db")
     cursor = connection.cursor()
-    cursor.execute("insert into todo (task, status) values (?,?)", (new_item, 1))
+    #cursor.execute("insert into users (f_name) values (?,?,?)", (new_user))
+    cursor.execute("insert into users (f_name, myemail, msg) values (?,?,?)", (f_name, myemail, msg))
     #cursor.lastrowid
     connection.commit()
     cursor.close()
-    #return "The new item is " + new_item + "..."
+    #return "The new user is " + new_user + "..."
     redirect("/")
 
 if ON_PYTHONANYWHERE:
